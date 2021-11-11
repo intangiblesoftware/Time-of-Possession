@@ -11,7 +11,7 @@ import SwiftUI
 struct Time_of_PossessionApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TOPView()
         }
     }
 }
