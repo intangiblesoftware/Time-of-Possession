@@ -7,92 +7,80 @@
 
 import SwiftUI
 
-struct TOPButtonView: View {
-
-    let feedbackGenerator = UINotificationFeedbackGenerator()
+struct TOPButtonView: View, TOPTimerListener {
+    let configuration: TimerViewConfiguration
+    let timer: TOPTimer
+    let timeFormatter: DateComponentsFormatter
     
-    @State private var color: Color
     @State private var team: String
-    @State private var elapsedTime = 0
-    @State private var timerIsRunning = false
-    @State private var resetAlertIsShowing = false
-    @State private var timer:Timer?
+    @State private var color: String
+    @State private var elapsedTime: Double = 0.0
     
-    func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-            elapsedTime += 1
-        }
+    init(with configuration: TimerViewConfiguration, and timer: TOPTimer) {
+        self.configuration = configuration
+        self.team = configuration.name
+        self.color = configuration.color
+        self.timer = timer
+        
+        // Display elapsed time in hh:mm:ss padded with 0s
+        timeFormatter = DateComponentsFormatter()
+        timeFormatter.allowedUnits = [.hour, .minute, .second]
+        timeFormatter.zeroFormattingBehavior = .pad
     }
-    
-    func stopTimer() {
-        timer?.invalidate()
-    }
-    
-    func resetTimer() {
-        timer?.invalidate()
-        elapsedTime = 0
-    }
-    
-    func formattedElapsedTime () -> String {
-        let hours = (elapsedTime / 36000)
-        let minutes = (elapsedTime / 600) % 60
-        let seconds = (elapsedTime / 10) % 60
-        let tenths = elapsedTime % 10
-        return String(format: "%02d:%02d:%02d.%1d", hours, minutes, seconds, tenths)
-    }
-    
+
     var body: some View {
+
         ZStack {
             Rectangle()
-                .animation(.easeInOut(duration: 0.3), value: timerIsRunning)
-                .foregroundColor(color)
-                .opacity(timerIsRunning ? 1.0 : 0.5)
+                .animation(.easeInOut(duration: 0.3), value: timer.isRunning)
+                .foregroundColor(Color(color))
+                .opacity(timer.isRunning ? 1.0 : 0.5)
                 .edgesIgnoringSafeArea(.bottom)
                 .onTapGesture {
-                    if timerIsRunning {
-                        stopTimer()
+                    if timer.isRunning {
+                        timer.stop()
                     } else {
-                        startTimer()
+                        timer.becomeListener(listener: self)
+                        timer.start()
                     }
-                    timerIsRunning.toggle()
                 }
                 .onLongPressGesture {
-                    if !timerIsRunning {
-                        resetAlertIsShowing = true
-                        feedbackGenerator.notificationOccurred(.success)
-                    }
+                    // Reset timer if it's not running
                 }
             VStack {
-                InstructionView(timerIsRunning: $timerIsRunning)
-                    .animation(.easeInOut(duration: 0.3), value: timerIsRunning)
                 Spacer()
             }
             VStack {
                 TeamTextView(team: team)
-                TimerTextView(elapsedTime: formattedElapsedTime())
-            }
-        }
-        .alert("Reset Timer?", isPresented: $resetAlertIsShowing) {
-            Button("Cancel", role: .cancel, action: {
-                resetAlertIsShowing = false
-            })
-            Button("Reset", role: .destructive) {
-                resetTimer()
-                resetAlertIsShowing = false
+                TimerTextView(elapsedTime: timeFormatter.string(from: elapsedTime) ?? "00:00:00.0")
             }
         }
     }
     
-    var instructionView: some View {
-        @Binding var timerIsRunning: Bool
+    // Conform to TOPTimerListener protocol
+    func timerFired() {
+        elapsedTime += timer.interval
         
+    }
+}
+
+struct InstructionView: View {
+    @Binding var timerIsRunning: Bool
+    @Binding var teamName: String
+    @Binding var teamColor: String
+    
+    @State private var configurationIsShowing = false
+    
+    var body: some View {
         VStack {
             if timerIsRunning {
                 Text("Tap anywhere to stop")
                     .foregroundColor(Color("instructionText"))
+                    .padding()
             } else {
                 Text("Tap anywhere to start")
                     .foregroundColor(Color("instructionText"))
+                    .padding(.top)
                 Text("Long press to reset timer")
                     .foregroundColor(Color("instructionText"))
             }
@@ -101,20 +89,30 @@ struct TOPButtonView: View {
                 Spacer()
                 Button(action: {
                     // Show configuration view
+                    configurationIsShowing = true
                 }) {
                     Image(systemName: "gear")
                         .font(.title)
                         .foregroundColor(Color("instructionText"))
                 }
+                .disabled(timerIsRunning)
+                .sheet(isPresented: $configurationIsShowing) {
+                    // Do something on dismiss?
+                } content: {
+                    ConfigurationView(teamName: $teamName, colorName: $teamColor)
+                }
+                .padding([.trailing, .bottom])
+
             }
         }
     }
 }
 
+
 struct TOPButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        TOPButtonView(color: Color.red, team: "Janesville")
-            .previewDevice("iPod touch (7th generation)")
+        TOPButtonView(with: TimerViewConfiguration().defaultHomeTeam, and: TOPTimer())
+            
     }
 }
 
