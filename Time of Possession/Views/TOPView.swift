@@ -29,15 +29,13 @@ struct TOPView: View {
                 Text("Time of Possession")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .shadow(color: Color("lightShadow"), radius: 2.0, x: -2.0, y: -2.0)
-                    .shadow(color: Color("darkShadow"), radius: 2.0, x: 2.0, y: 2.0)
                     .padding(.top)
                 // Buttons
                 if verticalSizeClass == .regular {
                     // iPhone portrait
                     VStack {
                         Spacer()
-                        TOPButtonView(teamName: "Home Team", elapsedTime: $homeElapsedTime)
+                        TOPButtonView(teamName: "Home Team", elapsedTime: $homeElapsedTime, isRunning: $homeTimerIsRunning)
                             .onTapGesture {
                                 if homeTimerIsRunning {
                                     stopHomeTimer()
@@ -46,7 +44,7 @@ struct TOPView: View {
                                 }
                             }
                         Spacer()
-                        TOPButtonView(teamName: "Visiting Team", elapsedTime: $visitingElapsedTime)
+                        TOPButtonView(teamName: "Visiting Team", elapsedTime: $visitingElapsedTime, isRunning: $visitingTimerIsRunning)
                             .onTapGesture {
                                 if visitingTimerIsRunning {
                                     stopVisitingTimer()
@@ -60,7 +58,7 @@ struct TOPView: View {
                     // iPhone landscape
                     HStack {
                         Spacer()
-                        TOPButtonView(teamName: "Home Team", elapsedTime: $homeElapsedTime)
+                        TOPButtonView(teamName: "Home Team", elapsedTime: $homeElapsedTime, isRunning: $homeTimerIsRunning)
                             .onTapGesture {
                                 if homeTimerIsRunning {
                                     stopHomeTimer()
@@ -69,7 +67,7 @@ struct TOPView: View {
                                 }
                             }
                         Spacer()
-                        TOPButtonView(teamName: "Visiting Team", elapsedTime: $visitingElapsedTime)
+                        TOPButtonView(teamName: "Visiting Team", elapsedTime: $visitingElapsedTime, isRunning: $visitingTimerIsRunning)
                             .onTapGesture {
                                 if visitingTimerIsRunning {
                                     stopVisitingTimer()
