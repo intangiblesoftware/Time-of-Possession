@@ -8,10 +8,13 @@
 import SwiftUI
 
 @main
+
 struct Time_of_PossessionApp: App {
+    @StateObject private var sharedTimer: TOPTimer = TOPTimer()
+    
     var body: some Scene {
         WindowGroup {
-            TOPView()
+            TOPView().environmentObject(sharedTimer)
         }
     }
 }
