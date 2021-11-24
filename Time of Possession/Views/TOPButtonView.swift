@@ -7,15 +7,17 @@
 
 import SwiftUI
 
-struct TOPButtonView: View {
+struct TOPButtonView: View, TOPTimerListener {
+    @EnvironmentObject var timer: TOPTimer
+
+    @State var elapsedTime: Double = 0.0
+    @State var isListener: Bool = false
+
     var teamName: String
-    
-    @Binding var elapsedTime: Double
-    @Binding var isRunning: Bool
     
     var body: some View {
         ZStack {
-            if isRunning {
+            if isListener {
                 withAnimation {
                     Rectangle()
                         .cornerRadius(20)
@@ -37,7 +39,17 @@ struct TOPButtonView: View {
             VStack {
                 TeamTextView(team: teamName)
                 TimerTextView(elapsedTime: $elapsedTime)
-                
+            }
+        }.onTapGesture {
+            if isListener {
+                timer.stop()
+            } else {
+                if timer.isRunning {
+                    timer.becomeListener(newListener: self)
+                } else {
+                    timer.start()
+                    timer.becomeListener(newListener: self)
+                }
             }
         }
     }

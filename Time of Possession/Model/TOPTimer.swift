@@ -9,43 +9,45 @@ import Foundation
 
 class TOPTimer: ObservableObject {
     // Time of Possession timer
-    // Creates a repeating timer that fires every N seconds
+    // Creates a repeating timer that fires every second
     // Notifies a listener every time the timer fires
     // There can only be one listener at at time
     
-    private let defaultInterval: Double = 1.0
     private var timer: Timer?
-
-    public private(set) var interval: Double
+    private var interval: Double = 1.0
     
-    @Published var isRunning: Bool = false
-    @Published var elapsedTime: Double = 0.0
-    
-    // Several ways to create a TOPTimer
-    init(fireEvery seconds: Double) {
-        self.interval = seconds
+    var listener: TOPTimerListener?
+    var isRunning: Bool {
+        timer != nil
     }
-    
-    init(_ seconds: Double) {
-        self.interval = seconds
-    }
-    
-    init() {
-        self.interval = defaultInterval
-    }
-    
+        
     // Interact with the timer
     func start() {
-        isRunning = true
-        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
-            self.elapsedTime += self.interval
+        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { theTimer in
+            self.listener?.elapsedTime += self.interval
         }
     }
     
     func stop() {
-        isRunning = false
         timer?.invalidate()
         timer = nil
+        
+        listener?.isListener = false
+        listener = nil
     }
     
+    func becomeListener(newListener: TOPTimerListener) {
+        // Tell the other one they're no longer listening
+        self.listener?.isListener = false
+        self.listener = nil
+        
+        // Now make the new one the listener and tell them so
+        self.listener = newListener
+        self.listener?.isListener = true
+    }
+}
+
+protocol TOPTimerListener {
+    var elapsedTime: Double { set get }
+    var isListener: Bool { set get }
 }

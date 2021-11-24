@@ -11,14 +11,6 @@ struct TOPView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     
-    @State private var homeElapsedTime = 0.0
-    @State private var homeTimer: Timer?
-    @State private var homeTimerIsRunning = false
-    
-    @State private var visitingElapsedTime = 0.0
-    @State private var visitingTimer: Timer?
-    @State private var visitingTimerIsRunning = false
-
     var body: some View {
         ZStack {
             Rectangle()
@@ -35,46 +27,18 @@ struct TOPView: View {
                     // iPhone portrait
                     VStack {
                         Spacer()
-                        TOPButtonView(teamName: "Home Team", elapsedTime: $homeElapsedTime, isRunning: $homeTimerIsRunning)
-                            .onTapGesture {
-                                if homeTimerIsRunning {
-                                    stopHomeTimer()
-                                } else {
-                                    startHomeTimer()
-                                }
-                            }
+                        TOPButtonView(teamName: "Home Team")
                         Spacer()
-                        TOPButtonView(teamName: "Visiting Team", elapsedTime: $visitingElapsedTime, isRunning: $visitingTimerIsRunning)
-                            .onTapGesture {
-                                if visitingTimerIsRunning {
-                                    stopVisitingTimer()
-                                } else {
-                                    startVisitingTimer()
-                                }
-                            }
+                        TOPButtonView(teamName: "Visiting Team")
                         Spacer()
                     }
                 } else if verticalSizeClass == .compact {
                     // iPhone landscape
                     HStack {
                         Spacer()
-                        TOPButtonView(teamName: "Home Team", elapsedTime: $homeElapsedTime, isRunning: $homeTimerIsRunning)
-                            .onTapGesture {
-                                if homeTimerIsRunning {
-                                    stopHomeTimer()
-                                } else {
-                                    startHomeTimer()
-                                }
-                            }
+                        TOPButtonView(teamName: "Home Team")
                         Spacer()
-                        TOPButtonView(teamName: "Visiting Team", elapsedTime: $visitingElapsedTime, isRunning: $visitingTimerIsRunning)
-                            .onTapGesture {
-                                if visitingTimerIsRunning {
-                                    stopVisitingTimer()
-                                } else {
-                                    startVisitingTimer()
-                                }
-                            }
+                        TOPButtonView(teamName: "Visiting Team")
                         Spacer()
                     }
                 } else {
@@ -102,43 +66,21 @@ struct TOPView: View {
             }
         }
     }
-
-    func startHomeTimer() {
-        stopVisitingTimer()
-        homeTimerIsRunning = true
-        homeTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
-            homeElapsedTime += 1.0
-        })
-    }
-
-    func startVisitingTimer() {
-        stopHomeTimer()
-        visitingTimerIsRunning = true
-        visitingTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
-            visitingElapsedTime += 1.0
-        })
-    }
     
-    func stopHomeTimer() {
-        homeTimerIsRunning = false
-        homeTimer?.invalidate()
-        homeTimer = nil
-    }
-    
-    func stopVisitingTimer() {
-        visitingTimerIsRunning = false
-        visitingTimer?.invalidate()
-        visitingTimer = nil
-    }
+    func whoIsListener() {
 
+    }
 }
+
 
 struct TOPView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             TOPView()
+                .environmentObject(TOPTimer())
                 .previewInterfaceOrientation(.portrait)
             TOPView()
+                .environmentObject(TOPTimer())
                 .previewInterfaceOrientation(.landscapeLeft)
         }
     }
