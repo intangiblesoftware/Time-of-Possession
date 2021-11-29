@@ -10,6 +10,10 @@ import SwiftUI
 struct TOPView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
+    @EnvironmentObject var timer: TOPTimer
+
+    let homeButton = TOPButtonView(teamName: "Home Team", color: .teal)
+    let visitorButton = TOPButtonView(teamName: "Visiting Team", color: .blue)
     
     var body: some View {
         ZStack {
@@ -21,24 +25,28 @@ struct TOPView: View {
                 Text("Time of Possession")
                     .font(.largeTitle)
                     .fontWeight(.bold)
+                    .foregroundColor(Color("instructionText"))
                     .padding(.top)
+                Text("Tap a button to start a timer. Tap again to stop.")
+                    .font(.subheadline)
+                    .foregroundColor(Color("instructionText"))
                 // Buttons
                 if verticalSizeClass == .regular {
                     // iPhone portrait
                     VStack {
                         Spacer()
-                        TOPButtonView(teamName: "Home Team")
+                        homeButton
                         Spacer()
-                        TOPButtonView(teamName: "Visiting Team")
+                        visitorButton
                         Spacer()
                     }
                 } else if verticalSizeClass == .compact {
                     // iPhone landscape
                     HStack {
                         Spacer()
-                        TOPButtonView(teamName: "Home Team")
+                        homeButton
                         Spacer()
-                        TOPButtonView(teamName: "Visiting Team")
+                        visitorButton
                         Spacer()
                     }
                 } else {
@@ -53,7 +61,8 @@ struct TOPView: View {
                     } label: {
                         Text("Reset")
                     }
-                    .padding(.leading)
+                    .padding()
+                    .disabled(timer.isRunning)
                     Spacer()
                     // settings on right
                     Button {
@@ -62,13 +71,10 @@ struct TOPView: View {
                         Image(systemName: "gear")
                     }
                     .padding(.trailing)
+                    .disabled(timer.isRunning)
                 }
             }
         }
-    }
-    
-    func whoIsListener() {
-
     }
 }
 
@@ -77,6 +83,7 @@ struct TOPView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             TOPView()
+                .preferredColorScheme(.dark)
                 .environmentObject(TOPTimer())
                 .previewInterfaceOrientation(.portrait)
             TOPView()

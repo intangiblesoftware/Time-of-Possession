@@ -9,32 +9,26 @@ import SwiftUI
 
 struct TOPButtonView: View, TOPTimerListener {
     @EnvironmentObject var timer: TOPTimer
-
+    
     @State var elapsedTime: Double = 0.0
     @State var isListener: Bool = false
-
+    
     var teamName: String
+    var color: Color
     
     var body: some View {
         ZStack {
             if isListener {
-                withAnimation {
-                    Rectangle()
-                        .cornerRadius(20)
-                        .foregroundColor(Color("background"))
-                        .padding()
-                        .shadow(color: Color.white, radius: 2.0, x: -3.0, y: -3.0)
-                        .shadow(color: Color("darkShadow"), radius: 2.0, x: 3.0, y: 3.0)
-                }
+                Rectangle()
+                    .foregroundColor(color)
+                    .padding()
+                    .shadow(color: Color("darkShadow"), radius: 2.0, x: 3.0, y: 3.0)
             } else {
-                withAnimation {
-                    Rectangle()
-                        .cornerRadius(20)
-                        .foregroundColor(Color("background"))
-                        .padding()
-                        .shadow(color: Color("lightShadow"), radius: 7.0, x: -5.0, y: -5.0)
-                        .shadow(color: Color("darkShadow"), radius: 7.0, x: 5.0, y: 5.0)
-                }
+                Rectangle()
+                    .foregroundColor(color)
+                    .padding()
+                    .shadow(color: Color("darkShadow"), radius: 10.0, x: 5.0, y: 5.0)
+                    .opacity(0.5)
             }
             VStack {
                 TeamTextView(team: teamName)
@@ -62,6 +56,7 @@ struct TimerTextView: View {
     var body: some View {
         Text(elapsedTimeString(elapsedTime: elapsedTime))
             .font(.system(size: 48, weight: .regular, design: .monospaced))
+            .foregroundColor(Color("instructionText"))
     }
     
     func elapsedTimeString(elapsedTime: Double) -> String {
@@ -80,6 +75,7 @@ struct TeamTextView: View {
         Text(team)
             .font(.system(size: 36))
             .fontWeight(.bold)
+            .foregroundColor(Color("instructionText"))
     }
 }
 

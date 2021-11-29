@@ -17,15 +17,14 @@ class TOPTimer: ObservableObject {
     private var interval: Double = 1.0
     
     var listener: TOPTimerListener?
-    var isRunning: Bool {
-        timer != nil
-    }
+    @Published var isRunning: Bool = false
         
     // Interact with the timer
     func start() {
         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { theTimer in
             self.listener?.elapsedTime += self.interval
         }
+        isRunning = true
     }
     
     func stop() {
@@ -34,6 +33,8 @@ class TOPTimer: ObservableObject {
         
         listener?.isListener = false
         listener = nil
+        
+        isRunning = false
     }
     
     func becomeListener(newListener: TOPTimerListener) {
