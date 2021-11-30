@@ -49,6 +49,6 @@ class TOPTimer: ObservableObject {
 }
 
 protocol TOPTimerListener {
-    var elapsedTime: Double { set get }
     var isListener: Bool { set get }
+    var elapsedTime: Double { set get }
 }

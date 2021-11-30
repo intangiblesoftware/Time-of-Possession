@@ -10,11 +10,12 @@ import SwiftUI
 struct TOPView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
-    @EnvironmentObject var timer: TOPTimer
-
-    let homeButton = TOPButtonView(teamName: "Home Team", color: .teal)
-    let visitorButton = TOPButtonView(teamName: "Visiting Team", color: .blue)
     
+    @EnvironmentObject var timer: TOPTimer
+    @EnvironmentObject var configuration: Configuration
+    
+    @State var configurationIsShowing: Bool = false
+        
     var body: some View {
         ZStack {
             Rectangle()
@@ -35,18 +36,18 @@ struct TOPView: View {
                     // iPhone portrait
                     VStack {
                         Spacer()
-                        homeButton
+                        TOPButtonView(forHome: true)
                         Spacer()
-                        visitorButton
+                        TOPButtonView(forHome: false)
                         Spacer()
                     }
                 } else if verticalSizeClass == .compact {
                     // iPhone landscape
                     HStack {
                         Spacer()
-                        homeButton
+                        TOPButtonView(forHome: true)
                         Spacer()
-                        visitorButton
+                        TOPButtonView(forHome: false)
                         Spacer()
                     }
                 } else {
@@ -57,7 +58,6 @@ struct TOPView: View {
                 HStack {
                     // reset on left,
                     Button {
-                        
                     } label: {
                         Text("Reset")
                     }
@@ -66,12 +66,16 @@ struct TOPView: View {
                     Spacer()
                     // settings on right
                     Button {
-                        
+                        configurationIsShowing.toggle()
                     } label: {
                         Image(systemName: "gear")
                     }
                     .padding(.trailing)
                     .disabled(timer.isRunning)
+                    .sheet(isPresented: $configurationIsShowing) {
+                        ConfigurationView(isPresented: $configurationIsShowing)
+                    }
+
                 }
             }
         }
@@ -85,9 +89,11 @@ struct TOPView_Previews: PreviewProvider {
             TOPView()
                 .preferredColorScheme(.dark)
                 .environmentObject(TOPTimer())
+                .environmentObject(Configuration())
                 .previewInterfaceOrientation(.portrait)
             TOPView()
                 .environmentObject(TOPTimer())
+                .environmentObject(Configuration())
                 .previewInterfaceOrientation(.landscapeLeft)
         }
     }

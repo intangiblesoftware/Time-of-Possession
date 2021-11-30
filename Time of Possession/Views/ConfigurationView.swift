@@ -8,18 +8,9 @@
 import SwiftUI
 
 struct ConfigurationView: View {
-    @State private var homeTeamName: String = ""
-    @State private var homeTeamColor: Color = .green
-
-    @State private var visitingTeamName: String = ""
-    @State private var visitingTeamColor: Color = .red
+    @EnvironmentObject var configuration: Configuration
     
-    private let colors: [Color] = [Color.blue, Color.brown, Color.cyan, Color.gray, Color.green, Color.indigo, Color.mint, Color.orange, Color.pink, Color.purple, Color.red, Color.teal, Color.yellow]
-    private let columns = [GridItem(.flexible(minimum: 50.0, maximum: .infinity), spacing: 10.0),
-                           GridItem(.flexible(minimum: 50.0, maximum: .infinity), spacing: 10.0),
-                           GridItem(.flexible(minimum: 50.0, maximum: .infinity), spacing: 10.0),
-                           GridItem(.flexible(minimum: 50.0, maximum: .infinity), spacing: 10.0),
-                           GridItem(.flexible(minimum: 50.0, maximum: .infinity), spacing: 10.0)]
+    @Binding var isPresented: Bool
     
     var body: some View {
         ZStack {
@@ -33,37 +24,23 @@ struct ConfigurationView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding([.top, .leading])
                     Button {
-                        
+                        isPresented.toggle()
                     } label: {
                         Text("Done")
                     }
                     .padding([.top, .trailing])
-
+                    
                 }
                 Form {
                     Section {
-                        TextField("Home team name", text: $homeTeamName, prompt: Text("Team name"))
-                            LazyVGrid(columns: columns, content: {
-                                ForEach(colors, id:\.self) { color in
-                                    Rectangle()
-                                        .foregroundColor(color)
-                                        .frame(width: 50, height: 50)
-                                }
-                            }).frame(maxHeight: 200)
+                        TextField("Home team name", text: $configuration.homeTeam, prompt: Text("Team name"))
+                        ColorPicker(selectedColor: $configuration.homeColor)
                     } header: {
                         Text("Home Team")
                     }
                     Section {
-                        TextField("Visiting team name ", text: $visitingTeamName, prompt: Text("Team name"))
-                        ScrollView(.horizontal) {
-                            HStack {
-                                ForEach(colors, id:\.self) { color in
-                                    Rectangle()
-                                        .foregroundColor(color)
-                                        .frame(width: 50, height: 50)
-                                }
-                            }
-                        }
+                        TextField("Visiting team name", text: $configuration.visitingTeam, prompt: Text("Team name"))
+                        ColorPicker(selectedColor: $configuration.visitingColor)
                     } header: {
                         Text("Visiting Team")
                     }
@@ -75,9 +52,42 @@ struct ConfigurationView: View {
     }
 }
 
+struct ColorPicker: View {
+    @Binding var selectedColor: Color
+    
+    private let colors: [Color] = Configuration.allTeamColors
+    private let columns = [GridItem(.adaptive(minimum: 45, maximum: 55), spacing: 10)]
+    
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, alignment: .center) {
+                ForEach(colors, id:\.self) { color in
+                    if color == selectedColor {
+                        RoundedRectangle(cornerRadius: 8)
+                            .foregroundColor(color)
+                            .frame(height: 50)
+                    } else {
+                        RoundedRectangle(cornerRadius: 8)
+                            .foregroundColor(color)
+                            .opacity(0.5)
+                            .frame(height: 50)
+                            .onTapGesture {
+                                selectedColor = color
+                            }
+                    }
+                }
+            }
+        }.frame(maxHeight: 300)
+    }
+}
+
 struct ConfigurationView_Previews: PreviewProvider {
     static var previews: some View {
-        ConfigurationView()
+        ConfigurationView(isPresented: .constant(true))
+            .environmentObject(Configuration())
+        
+        ConfigurationView(isPresented: .constant(true))
+            .environmentObject(Configuration())
             .previewInterfaceOrientation(.landscapeLeft)
     }
 }

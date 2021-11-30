@@ -9,29 +9,29 @@ import SwiftUI
 
 struct TOPButtonView: View, TOPTimerListener {
     @EnvironmentObject var timer: TOPTimer
-    
-    @State var elapsedTime: Double = 0.0
+    @EnvironmentObject var configuration: Configuration
+        
     @State var isListener: Bool = false
-    
-    var teamName: String
-    var color: Color
+    @State var elapsedTime: Double = 0.0
+
+    var forHome: Bool
     
     var body: some View {
         ZStack {
             if isListener {
                 Rectangle()
-                    .foregroundColor(color)
+                    .foregroundColor(forHome ? configuration.homeColor : configuration.visitingColor)
                     .padding()
                     .shadow(color: Color("darkShadow"), radius: 2.0, x: 3.0, y: 3.0)
             } else {
                 Rectangle()
-                    .foregroundColor(color)
+                    .foregroundColor(forHome ? configuration.homeColor : configuration.visitingColor)
                     .padding()
                     .shadow(color: Color("darkShadow"), radius: 10.0, x: 5.0, y: 5.0)
                     .opacity(0.5)
             }
             VStack {
-                TeamTextView(team: teamName)
+                TeamTextView(team: forHome ? $configuration.homeTeam : $configuration.visitingTeam)
                 TimerTextView(elapsedTime: $elapsedTime)
             }
         }.onTapGesture {
@@ -46,7 +46,7 @@ struct TOPButtonView: View, TOPTimerListener {
                 }
             }
         }
-    }
+    }    
 }
 
 
@@ -69,7 +69,7 @@ struct TimerTextView: View {
 }
 
 struct TeamTextView: View {
-    var team: String
+    @Binding var team: String
     
     var body: some View {
         Text(team)
