@@ -29,21 +29,29 @@ class Configuration: ObservableObject {
 
     @Published var homeTeam: String
     @Published var visitingTeam: String
+    
     @Published var homeColor: Color
     @Published var visitingColor: Color
+    
+    @Published var homeElapsedTime: Double
+    @Published var visitingElapsedTime: Double
 
     init() {
         homeTeam = Configuration.defaultHomeTeam
         homeColor = Color.TeamColors.defaultHomeColor
         visitingTeam = Configuration.defaultVisitingTeam
         visitingColor = Color.TeamColors.defaultVisitorColor
+        homeElapsedTime = 0.0
+        visitingElapsedTime = 0.0
     }
     
-    init(homeTeam: String, homeColor: Color, visitingTeam: String, visitingColor: Color) {
+    init(homeTeam: String, homeColor: Color, visitingTeam: String, visitingColor: Color, homeElapsedTime: Double, visitingElapsedTime: Double) {
         self.homeTeam = homeTeam
         self.homeColor = homeColor
         self.visitingTeam = visitingTeam
         self.visitingColor = visitingColor
+        self.homeElapsedTime = homeElapsedTime
+        self.visitingElapsedTime = visitingElapsedTime
     }
     
 }

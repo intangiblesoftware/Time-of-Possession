@@ -11,7 +11,6 @@ struct TOPView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     
-    @EnvironmentObject var timer: TOPTimer
     @EnvironmentObject var configuration: Configuration
     
     @State var configurationIsShowing: Bool = false
@@ -36,18 +35,18 @@ struct TOPView: View {
                     // iPhone portrait
                     VStack {
                         Spacer()
-                        TOPButtonView(forHome: true)
+                        TOPButtonView(team: .home)
                         Spacer()
-                        TOPButtonView(forHome: false)
+                        TOPButtonView(team: .visitor)
                         Spacer()
                     }
                 } else if verticalSizeClass == .compact {
                     // iPhone landscape
                     HStack {
                         Spacer()
-                        TOPButtonView(forHome: true)
+                        TOPButtonView(team: .home)
                         Spacer()
-                        TOPButtonView(forHome: false)
+                        TOPButtonView(team: .visitor)
                         Spacer()
                     }
                 } else {
@@ -62,7 +61,6 @@ struct TOPView: View {
                         Text("Reset")
                     }
                     .padding()
-                    .disabled(timer.isRunning)
                     Spacer()
                     // settings on right
                     Button {
@@ -71,7 +69,6 @@ struct TOPView: View {
                         Image(systemName: "gear")
                     }
                     .padding(.trailing)
-                    .disabled(timer.isRunning)
                     .sheet(isPresented: $configurationIsShowing) {
                         ConfigurationView(isPresented: $configurationIsShowing)
                     }
