@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 enum Team {
     case home
@@ -15,13 +16,15 @@ enum Team {
 struct TOPButtonView: View {
     @EnvironmentObject var configuration: Configuration
     
-    @StateObject var timer: TOPTimer = TOPTimer()
-    
     var team: Team
+    @State private var isRunning = false
     
+    let timer = Timer.publish(every: 1.0, tolerance: 0.5, on: .main, in: .default).autoconnect()
+    var cancellable: Cancellable?
+        
     var body: some View {
         ZStack {
-            if timer.isRunning {
+            if isRunning {
                 Rectangle()
                     .foregroundColor(team == .home ? configuration.homeColor : configuration.visitingColor)
                     .padding()
@@ -35,12 +38,24 @@ struct TOPButtonView: View {
             }
             VStack {
                 TeamTextView(team: team == .home ? $configuration.homeTeam : $configuration.visitingTeam)
-                TimerTextView(elapsedTime: $timer.elapsedTime)
+                TimerTextView(elapsedTime: team == .home ? $configuration.homeElapsedTime : $configuration.visitingElapsedTime)
             }
         }.onTapGesture {
-            timer.isRunning.toggle()
+            if isRunning {
+                stop()
+            } else {
+                start()
+            }
         }
-    }    
+    }
+    
+    func start() {
+        isRunning = true
+    }
+    
+    func stop() {
+        isRunning = false
+    }
 }
 
 

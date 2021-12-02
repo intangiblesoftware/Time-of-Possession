@@ -14,7 +14,7 @@ struct TOPView: View {
     @EnvironmentObject var configuration: Configuration
     
     @State var configurationIsShowing: Bool = false
-        
+            
     var body: some View {
         ZStack {
             Rectangle()
