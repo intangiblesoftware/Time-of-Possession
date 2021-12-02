@@ -17,11 +17,10 @@ struct TOPButtonView: View {
     @EnvironmentObject var configuration: Configuration
     
     var team: Team
+    
+    @State private var timer: Timer? = nil
     @State private var isRunning = false
     
-    let timer = Timer.publish(every: 1.0, tolerance: 0.5, on: .main, in: .default).autoconnect()
-    var cancellable: Cancellable?
-        
     var body: some View {
         ZStack {
             if isRunning {
@@ -41,20 +40,25 @@ struct TOPButtonView: View {
                 TimerTextView(elapsedTime: team == .home ? $configuration.homeElapsedTime : $configuration.visitingElapsedTime)
             }
         }.onTapGesture {
-            if isRunning {
-                stop()
-            } else {
-                start()
-            }
+            isRunning ? stopTimer() : startTimer()
         }
     }
     
-    func start() {
+    func startTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
+            if team == .home {
+                configuration.homeElapsedTime += 1.0
+            } else {
+                configuration.visitingElapsedTime += 1.0
+            }
+        })
         isRunning = true
     }
     
-    func stop() {
+    func stopTimer() {
         isRunning = false
+        timer?.invalidate()
+        timer = nil
     }
 }
 

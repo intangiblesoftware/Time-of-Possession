@@ -14,7 +14,7 @@ struct TOPView: View {
     @EnvironmentObject var configuration: Configuration
     
     @State var configurationIsShowing: Bool = false
-            
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -31,26 +31,12 @@ struct TOPView: View {
                     .font(.subheadline)
                     .foregroundColor(Color("instructionText"))
                 // Buttons
-                if verticalSizeClass == .regular {
-                    // iPhone portrait
-                    VStack {
-                        Spacer()
-                        TOPButtonView(team: .home)
-                        Spacer()
-                        TOPButtonView(team: .visitor)
-                        Spacer()
-                    }
-                } else if verticalSizeClass == .compact {
-                    // iPhone landscape
-                    HStack {
-                        Spacer()
-                        TOPButtonView(team: .home)
-                        Spacer()
-                        TOPButtonView(team: .visitor)
-                        Spacer()
-                    }
-                } else {
-                    // Who knows what else could appear here.
+                VStack {
+                    Spacer()
+                    TOPButtonView(team: .home)
+                    Spacer()
+                    TOPButtonView(team: .visitor)
+                    Spacer()
                 }
                 
                 // Footer buttons
@@ -72,7 +58,7 @@ struct TOPView: View {
                     .sheet(isPresented: $configurationIsShowing) {
                         ConfigurationView(isPresented: $configurationIsShowing)
                     }
-
+                    
                 }
             }
         }

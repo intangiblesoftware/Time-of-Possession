@@ -27,7 +27,7 @@ class TOPTimer: ObservableObject {
         
     // Interact with the timer
     func start() {
-        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { theTimer in
+        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
             self.elapsedTime += self.interval
         }
     }
