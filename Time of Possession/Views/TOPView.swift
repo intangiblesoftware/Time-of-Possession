@@ -10,11 +10,12 @@ import SwiftUI
 struct TOPView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
-    
-    @EnvironmentObject var configuration: Configuration
+
+    @StateObject var homeConfiguration = Configuration(for: .home)
+    @StateObject var visitorConfiguration = Configuration(for: .visitor)
     
     @State var configurationIsShowing: Bool = false
-    
+            
     var body: some View {
         ZStack {
             Rectangle()
@@ -31,12 +32,22 @@ struct TOPView: View {
                     .font(.subheadline)
                     .foregroundColor(Color("instructionText"))
                 // Buttons
-                VStack {
-                    Spacer()
-                    TOPButtonView(team: .home)
-                    Spacer()
-                    TOPButtonView(team: .visitor)
-                    Spacer()
+                if verticalSizeClass == .compact {
+                    HStack {
+                        Spacer()
+                        TOPButtonView(configuration: homeConfiguration)
+                        Spacer()
+                        TOPButtonView(configuration: visitorConfiguration)
+                        Spacer()
+                    }
+                } else {
+                    VStack {
+                        Spacer()
+                        TOPButtonView(configuration: homeConfiguration)
+                        Spacer()
+                        TOPButtonView(configuration: visitorConfiguration)
+                        Spacer()
+                    }
                 }
                 
                 // Footer buttons
@@ -56,7 +67,6 @@ struct TOPView: View {
                     }
                     .padding(.trailing)
                     .sheet(isPresented: $configurationIsShowing) {
-                        ConfigurationView(isPresented: $configurationIsShowing)
                     }
                     
                 }
@@ -65,18 +75,13 @@ struct TOPView: View {
     }
 }
 
-
 struct TOPView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             TOPView()
                 .preferredColorScheme(.dark)
-                .environmentObject(TOPTimer())
-                .environmentObject(Configuration())
                 .previewInterfaceOrientation(.portrait)
             TOPView()
-                .environmentObject(TOPTimer())
-                .environmentObject(Configuration())
                 .previewInterfaceOrientation(.landscapeLeft)
         }
     }

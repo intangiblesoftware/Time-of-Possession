@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ConfigurationView: View {
-    @EnvironmentObject var configuration: Configuration
+    @ObservedObject var homeConfig: Configuration
+    @ObservedObject var visitorConfig: Configuration
     
     @Binding var isPresented: Bool
     
@@ -33,14 +34,14 @@ struct ConfigurationView: View {
                 }
                 Form {
                     Section {
-                        TextField("Home team name", text: $configuration.homeTeam, prompt: Text("Team name"))
-                        ColorPicker(selectedColor: $configuration.homeColor)
+                        TextField("Home team name", text: $homeConfig.teamName, prompt: Text("Team name"))
+                        ColorPicker(selectedColor: $homeConfig.teamColor)
                     } header: {
                         Text("Home Team")
                     }
                     Section {
-                        TextField("Visiting team name", text: $configuration.visitingTeam, prompt: Text("Team name"))
-                        ColorPicker(selectedColor: $configuration.visitingColor)
+                        TextField("Visiting team name", text: $visitorConfig.teamName, prompt: Text("Team name"))
+                        ColorPicker(selectedColor: $visitorConfig.teamColor)
                     } header: {
                         Text("Visiting Team")
                     }
@@ -55,7 +56,7 @@ struct ConfigurationView: View {
 struct ColorPicker: View {
     @Binding var selectedColor: Color
     
-    private let colors: [Color] = Configuration.allTeamColors
+    private let colors: [Color] = Constants.TeamColors.allTeamColors
     private let columns = [GridItem(.adaptive(minimum: 45, maximum: 55), spacing: 10)]
     
     var body: some View {
@@ -83,11 +84,10 @@ struct ColorPicker: View {
 
 struct ConfigurationView_Previews: PreviewProvider {
     static var previews: some View {
-        ConfigurationView(isPresented: .constant(true))
-            .environmentObject(Configuration())
-        
-        ConfigurationView(isPresented: .constant(true))
-            .environmentObject(Configuration())
+        ConfigurationView(homeConfig: Configuration(for: .home), visitorConfig: Configuration(for: .visitor), isPresented: .constant(true))
+
+        ConfigurationView(homeConfig: Configuration(for: .home), visitorConfig: Configuration(for: .visitor), isPresented: .constant(true))
             .previewInterfaceOrientation(.landscapeLeft)
+            .preferredColorScheme(.dark)
     }
 }

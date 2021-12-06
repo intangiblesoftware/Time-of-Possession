@@ -8,36 +8,30 @@
 import SwiftUI
 import Combine
 
-enum Team {
-    case home
-    case visitor
-}
 
 struct TOPButtonView: View {
-    @EnvironmentObject var configuration: Configuration
-    
-    var team: Team
+    @ObservedObject var configuration: Configuration
     
     @State private var timer: Timer? = nil
     @State private var isRunning = false
-    
+
     var body: some View {
         ZStack {
             if isRunning {
                 Rectangle()
-                    .foregroundColor(team == .home ? configuration.homeColor : configuration.visitingColor)
+                    .foregroundColor(configuration.teamColor)
                     .padding()
                     .shadow(color: Color("darkShadow"), radius: 2.0, x: 3.0, y: 3.0)
             } else {
                 Rectangle()
-                    .foregroundColor(team == .home ? configuration.homeColor : configuration.visitingColor)
+                    .foregroundColor(configuration.teamColor)
                     .padding()
                     .shadow(color: Color("darkShadow"), radius: 10.0, x: 5.0, y: 5.0)
                     .opacity(0.5)
             }
             VStack {
-                TeamTextView(team: team == .home ? $configuration.homeTeam : $configuration.visitingTeam)
-                TimerTextView(elapsedTime: team == .home ? $configuration.homeElapsedTime : $configuration.visitingElapsedTime)
+                TeamTextView(team: $configuration.teamName)
+                TimerTextView(elapsedTime: $configuration.elapsedTime)
             }
         }.onTapGesture {
             isRunning ? stopTimer() : startTimer()
@@ -46,11 +40,7 @@ struct TOPButtonView: View {
     
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
-            if team == .home {
-                configuration.homeElapsedTime += 1.0
-            } else {
-                configuration.visitingElapsedTime += 1.0
-            }
+            configuration.elapsedTime += 1.0
         })
         isRunning = true
     }

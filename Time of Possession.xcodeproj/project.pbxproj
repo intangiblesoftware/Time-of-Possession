@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3831D9772744031B00E000D9 /* TOPTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3831D9762744031B00E000D9 /* TOPTimer.swift */; };
 		387512642756793E0041637A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387512632756793E0041637A /* Configuration.swift */; };
+		388A063A275E38DF00001B13 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388A0639275E38DF00001B13 /* Extensions.swift */; };
+		388A063C275E393800001B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388A063B275E393800001B13 /* Constants.swift */; };
 		38A3F1B1273C592200A03D9E /* Time_of_PossessionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A3F1B0273C592200A03D9E /* Time_of_PossessionApp.swift */; };
 		38A3F1B3273C592300A03D9E /* TOPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A3F1B2273C592300A03D9E /* TOPView.swift */; };
 		38A3F1B5273C592400A03D9E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38A3F1B4273C592400A03D9E /* Assets.xcassets */; };
@@ -20,6 +22,8 @@
 /* Begin PBXFileReference section */
 		3831D9762744031B00E000D9 /* TOPTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOPTimer.swift; sourceTree = "<group>"; };
 		387512632756793E0041637A /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		388A0639275E38DF00001B13 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		388A063B275E393800001B13 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		38A3F1AD273C592200A03D9E /* Time of Possession.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time of Possession.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		38A3F1B0273C592200A03D9E /* Time_of_PossessionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time_of_PossessionApp.swift; sourceTree = "<group>"; };
 		38A3F1B2273C592300A03D9E /* TOPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOPView.swift; sourceTree = "<group>"; };
@@ -43,8 +47,8 @@
 		3831D9782744032100E000D9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3831D9762744031B00E000D9 /* TOPTimer.swift */,
 				387512632756793E0041637A /* Configuration.swift */,
+				3831D9762744031B00E000D9 /* TOPTimer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -69,6 +73,8 @@
 			isa = PBXGroup;
 			children = (
 				38A3F1B0273C592200A03D9E /* Time_of_PossessionApp.swift */,
+				388A0639275E38DF00001B13 /* Extensions.swift */,
+				388A063B275E393800001B13 /* Constants.swift */,
 				3831D9782744032100E000D9 /* Model */,
 				38A3F1BE273C59C300A03D9E /* Views */,
 				38A3F1C1273C5D5200A03D9E /* Assets */,
@@ -179,6 +185,8 @@
 				38A3F1C0273C59E900A03D9E /* TOPButtonView.swift in Sources */,
 				38A3F1B1273C592200A03D9E /* Time_of_PossessionApp.swift in Sources */,
 				3831D9772744031B00E000D9 /* TOPTimer.swift in Sources */,
+				388A063A275E38DF00001B13 /* Extensions.swift in Sources */,
+				388A063C275E393800001B13 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
