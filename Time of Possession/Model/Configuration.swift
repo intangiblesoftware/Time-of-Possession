@@ -13,16 +13,19 @@ class Configuration: ObservableObject {
     @Published var teamName: String
     @Published var teamColor: Color
     @Published var elapsedTime: Double
+    @Published var clockIsRunning: Bool
 
     init(for team: Team) {
         if team == .home {
             teamName = Constants.TeamName.defaultHomeTeamName
             teamColor = Constants.TeamColors.defaultHomeColor
             elapsedTime = 0.0
+            clockIsRunning = false
         } else {
             teamName = Constants.TeamName.defaultVisitingTeamName
             teamColor = Constants.TeamColors.defaultVisitorColor
             elapsedTime = 0.0
+            clockIsRunning = false
         }
     }
     
@@ -30,6 +33,7 @@ class Configuration: ObservableObject {
         teamName = name
         teamColor = color
         elapsedTime = 0.0
+        clockIsRunning = false
     }
 }
 

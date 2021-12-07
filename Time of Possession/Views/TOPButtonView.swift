@@ -12,12 +12,9 @@ import Combine
 struct TOPButtonView: View {
     @ObservedObject var configuration: Configuration
     
-    @State private var timer: Timer? = nil
-    @State private var isRunning = false
-
     var body: some View {
         ZStack {
-            if isRunning {
+            if configuration.clockIsRunning {
                 Rectangle()
                     .foregroundColor(configuration.teamColor)
                     .padding()
@@ -31,29 +28,13 @@ struct TOPButtonView: View {
             }
             VStack {
                 TeamTextView(team: $configuration.teamName)
-                TimerTextView(elapsedTime: $configuration.elapsedTime)
+                ClockTextView(elapsedTime: $configuration.elapsedTime)
             }
-        }.onTapGesture {
-            isRunning ? stopTimer() : startTimer()
         }
-    }
-    
-    func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
-            configuration.elapsedTime += 1.0
-        })
-        isRunning = true
-    }
-    
-    func stopTimer() {
-        isRunning = false
-        timer?.invalidate()
-        timer = nil
     }
 }
 
-
-struct TimerTextView: View {
+struct ClockTextView: View {
     @Binding var elapsedTime: Double
     
     var body: some View {

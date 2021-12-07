@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+enum ClockStatus {
+    case homeIsRunning
+    case visitorIsRunning
+    case stopped
+}
+
 struct TOPView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
@@ -14,9 +20,14 @@ struct TOPView: View {
     @StateObject var homeConfiguration = Configuration(for: .home)
     @StateObject var visitorConfiguration = Configuration(for: .visitor)
     
-    @State var configurationIsShowing: Bool = false
-            
+    @State private var configurationIsShowing: Bool = false
+    @State private var clock: Timer? = nil
+    @State private var clockStatus: ClockStatus = .stopped
+    
     var body: some View {
+        let homeButton = TOPButtonView(configuration: homeConfiguration)
+        let visitorButton = TOPButtonView(configuration: visitorConfiguration)
+        
         ZStack {
             Rectangle()
                 .foregroundColor(Color("background"))
@@ -35,17 +46,29 @@ struct TOPView: View {
                 if verticalSizeClass == .compact {
                     HStack {
                         Spacer()
-                        TOPButtonView(configuration: homeConfiguration)
+                        homeButton
+                            .onTapGesture {
+                                tappedHome()
+                            }
                         Spacer()
-                        TOPButtonView(configuration: visitorConfiguration)
+                        visitorButton
+                            .onTapGesture {
+                                tappedVisitor()
+                            }
                         Spacer()
                     }
                 } else {
                     VStack {
                         Spacer()
-                        TOPButtonView(configuration: homeConfiguration)
+                        homeButton
+                            .onTapGesture {
+                                tappedHome()
+                            }
                         Spacer()
-                        TOPButtonView(configuration: visitorConfiguration)
+                        visitorButton
+                            .onTapGesture {
+                                tappedVisitor()
+                            }
                         Spacer()
                     }
                 }
@@ -67,10 +90,59 @@ struct TOPView: View {
                     }
                     .padding(.trailing)
                     .sheet(isPresented: $configurationIsShowing) {
+                        ConfigurationView(homeConfig: homeConfiguration, visitorConfig: visitorConfiguration, isPresented: $configurationIsShowing)
                     }
                     
                 }
             }
+        }
+    }
+    
+    func tappedHome() {
+        switch clockStatus {
+        case .homeIsRunning:
+            clock?.invalidate()
+            clock = nil
+            homeConfiguration.clockIsRunning = false
+            clockStatus = .stopped
+        case .visitorIsRunning:
+            visitorConfiguration.clockIsRunning = false
+            clock?.invalidate()
+            clock = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
+                homeConfiguration.elapsedTime += 1.0
+            })
+            homeConfiguration.clockIsRunning = true
+            clockStatus = .homeIsRunning
+        case .stopped:
+            clock = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
+                homeConfiguration.elapsedTime += 1.0
+            })
+            homeConfiguration.clockIsRunning = true
+            clockStatus = .homeIsRunning
+        }
+    }
+    
+    func tappedVisitor() {
+        switch clockStatus {
+        case .homeIsRunning:
+            homeConfiguration.clockIsRunning = false
+            clock?.invalidate()
+            clock = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
+                visitorConfiguration.elapsedTime += 1.0
+            })
+            visitorConfiguration.clockIsRunning = true
+            clockStatus = .visitorIsRunning
+        case .visitorIsRunning:
+            clock?.invalidate()
+            clock = nil
+            visitorConfiguration.clockIsRunning = false
+            clockStatus = .stopped
+        case .stopped:
+            clock = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
+                visitorConfiguration.elapsedTime += 1.0
+            })
+            visitorConfiguration.clockIsRunning = true
+            clockStatus = .visitorIsRunning
         }
     }
 }
