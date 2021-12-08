@@ -79,7 +79,7 @@ struct TOPView: View {
                     Button {
                     } label: {
                         Text("Reset")
-                    }
+                    }.disabled(clockStatus != .stopped)
                     .padding()
                     Spacer()
                     // settings on right
@@ -89,6 +89,7 @@ struct TOPView: View {
                         Image(systemName: "gear")
                     }
                     .padding(.trailing)
+                    .disabled(clockStatus != .stopped)
                     .sheet(isPresented: $configurationIsShowing) {
                         ConfigurationView(homeConfig: homeConfiguration, visitorConfig: visitorConfiguration, isPresented: $configurationIsShowing)
                     }
@@ -101,43 +102,67 @@ struct TOPView: View {
     func tappedHome() {
         switch clockStatus {
         case .homeIsRunning:
-            clock?.invalidate()
-            clock = nil
-            homeConfiguration.clockIsRunning = false
-            clockStatus = .stopped
+            stopClock(for: .home)
         case .visitorIsRunning:
-            visitorConfiguration.clockIsRunning = false
-            clock?.invalidate()
-            clock = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
-                homeConfiguration.elapsedTime += 1.0
-            })
-            homeConfiguration.clockIsRunning = true
-            clockStatus = .homeIsRunning
+            switchClock(to: .home)
         case .stopped:
-            clock = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
-                homeConfiguration.elapsedTime += 1.0
-            })
-            homeConfiguration.clockIsRunning = true
-            clockStatus = .homeIsRunning
+            startClock(for: .home)
         }
     }
     
     func tappedVisitor() {
         switch clockStatus {
         case .homeIsRunning:
-            homeConfiguration.clockIsRunning = false
-            clock?.invalidate()
+            switchClock(to: .visitor)
+        case .visitorIsRunning:
+            stopClock(for: .visitor)
+        case .stopped:
+            startClock(for: .visitor)
+        }
+    }
+    
+    func startClock(for team: Team) {
+        if team == .home {
+            clock = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
+                homeConfiguration.elapsedTime += 1.0
+            })
+            homeConfiguration.clockIsRunning = true
+            clockStatus = .homeIsRunning
+        } else {
             clock = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
                 visitorConfiguration.elapsedTime += 1.0
             })
             visitorConfiguration.clockIsRunning = true
             clockStatus = .visitorIsRunning
-        case .visitorIsRunning:
+        }
+    }
+    
+    func stopClock(for team: Team) {
+        if team == .home {
+            clock?.invalidate()
+            clock = nil
+            homeConfiguration.clockIsRunning = false
+            clockStatus = .stopped
+        } else {
             clock?.invalidate()
             clock = nil
             visitorConfiguration.clockIsRunning = false
             clockStatus = .stopped
-        case .stopped:
+        }
+    }
+    
+    func switchClock(to team: Team) {
+        if team == .home {
+            visitorConfiguration.clockIsRunning = false
+            clock?.invalidate()
+            clock = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
+                homeConfiguration.elapsedTime += 1.0
+            })
+            homeConfiguration.clockIsRunning = true
+            clockStatus = .homeIsRunning
+        } else {
+            homeConfiguration.clockIsRunning = false
+            clock?.invalidate()
             clock = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
                 visitorConfiguration.elapsedTime += 1.0
             })
