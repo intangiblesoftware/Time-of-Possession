@@ -57,28 +57,25 @@ struct ColorPicker: View {
     @Binding var selectedColor: Color
     
     private let colors: [Color] = Constants.TeamColors.allTeamColors
-    private let columns = [GridItem(.adaptive(minimum: 45, maximum: 55), spacing: 10)]
+    private let columns = [GridItem(.adaptive(minimum: 45, maximum: 55), spacing: 2)]
     
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: columns, alignment: .center) {
+            LazyVGrid(columns: columns, alignment: .center, spacing: 2.0) {
                 ForEach(colors, id:\.self) { color in
                     if color == selectedColor {
-                        RoundedRectangle(cornerRadius: 8)
-                            .foregroundColor(color)
-                            .frame(height: 50)
+                        LoweredRectangle(color: color)
+                            .frame(width: 50, height: 50.0)
                     } else {
-                        RoundedRectangle(cornerRadius: 8)
-                            .foregroundColor(color)
-                            .opacity(0.5)
-                            .frame(height: 50)
+                        RaisedRectangle(color: color)
+                            .frame(width: 50, height: 50)
                             .onTapGesture {
                                 selectedColor = color
                             }
                     }
                 }
             }
-        }.frame(maxHeight: 300)
+        }.frame(maxHeight: 200)
     }
 }
 

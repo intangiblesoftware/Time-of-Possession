@@ -21,6 +21,7 @@ struct TOPView: View {
     @StateObject var visitorConfiguration = Configuration(for: .visitor)
     
     @State private var configurationIsShowing: Bool = false
+    @State private var resetAlertIsShowing: Bool = false
     @State private var clock: Timer? = nil
     @State private var clockStatus: ClockStatus = .stopped
     
@@ -47,11 +48,13 @@ struct TOPView: View {
                     HStack {
                         Spacer()
                         homeButton
+                            .padding(8.0)
                             .onTapGesture {
                                 tappedHome()
                             }
                         Spacer()
                         visitorButton
+                            .padding(8.0)
                             .onTapGesture {
                                 tappedVisitor()
                             }
@@ -61,11 +64,13 @@ struct TOPView: View {
                     VStack {
                         Spacer()
                         homeButton
+                            .padding(8.0)
                             .onTapGesture {
                                 tappedHome()
                             }
                         Spacer()
                         visitorButton
+                            .padding(8.0)
                             .onTapGesture {
                                 tappedVisitor()
                             }
@@ -77,10 +82,25 @@ struct TOPView: View {
                 HStack {
                     // reset on left,
                     Button {
+                        resetAlertIsShowing = true
                     } label: {
                         Text("Reset")
-                    }.disabled(clockStatus != .stopped)
+                    }
                     .padding()
+                    .disabled(clockStatus != .stopped)
+                    .alert(isPresented: $resetAlertIsShowing) {
+                        Alert(
+                            title: Text("Reset all clocks?"),
+                            message: Text("This will set both clocks to zero and the team names back to their default."),
+                            primaryButton: .default(
+                                Text("Cancel")
+                            ),
+                            secondaryButton: .destructive(
+                                Text("Reset"),
+                                action: reset
+                            )
+                        )
+                    }
                     Spacer()
                     // settings on right
                     Button {
@@ -169,6 +189,22 @@ struct TOPView: View {
             visitorConfiguration.clockIsRunning = true
             clockStatus = .visitorIsRunning
         }
+    }
+    
+    func reset() {
+        // Just to be safe
+        stopClock(for: .home)
+        stopClock(for: .visitor)
+        
+        homeConfiguration.teamColor = Constants.TeamColors.defaultHomeColor
+        homeConfiguration.teamName = Constants.TeamName.defaultHomeTeamName
+        homeConfiguration.elapsedTime = 0.0
+        homeConfiguration.clockIsRunning = false
+        
+        visitorConfiguration.teamColor = Constants.TeamColors.defaultVisitorColor
+        visitorConfiguration.teamName = Constants.TeamName.defaultVisitingTeamName
+        visitorConfiguration.elapsedTime = 0.0
+        visitorConfiguration.clockIsRunning = false
     }
 }
 

@@ -15,22 +15,36 @@ struct TOPButtonView: View {
     var body: some View {
         ZStack {
             if configuration.clockIsRunning {
-                Rectangle()
-                    .foregroundColor(configuration.teamColor)
-                    .padding()
-                    .shadow(color: Color("darkShadow"), radius: 2.0, x: 3.0, y: 3.0)
+                LoweredRectangle(color: configuration.teamColor)
             } else {
-                Rectangle()
-                    .foregroundColor(configuration.teamColor)
-                    .padding()
-                    .shadow(color: Color("darkShadow"), radius: 10.0, x: 5.0, y: 5.0)
-                    .opacity(0.5)
+                RaisedRectangle(color: configuration.teamColor)
             }
             VStack {
                 TeamTextView(team: $configuration.teamName)
                 ClockTextView(elapsedTime: $configuration.elapsedTime)
             }
+            .foregroundColor(Color("buttonText"))
         }
+    }
+}
+
+struct RaisedRectangle: View {
+    var color: Color
+    
+    var body: some View {
+        Rectangle()
+            .foregroundColor(color)
+            .shadow(color: Color.black, radius: 4, x: 2, y: 2)
+    }
+}
+
+struct LoweredRectangle: View {
+    var color: Color
+    
+    var body: some View {
+        Rectangle()
+            .foregroundColor(color)
+            .padding(4.0)
     }
 }
 
@@ -40,7 +54,6 @@ struct ClockTextView: View {
     var body: some View {
         Text(elapsedTimeString(elapsedTime: elapsedTime))
             .font(.system(size: 48, weight: .regular, design: .monospaced))
-            .foregroundColor(Color("instructionText"))
     }
     
     func elapsedTimeString(elapsedTime: Double) -> String {
@@ -59,7 +72,19 @@ struct TeamTextView: View {
         Text(team)
             .font(.system(size: 36))
             .fontWeight(.bold)
-            .foregroundColor(Color("instructionText"))
     }
 }
 
+struct TOPButtonView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            TOPButtonView(configuration: Configuration(for: .home))
+                .preferredColorScheme(.dark)
+                .previewInterfaceOrientation(.portrait)
+                .previewLayout(.sizeThatFits)
+            TOPButtonView(configuration: Configuration(for: .visitor))
+                .previewInterfaceOrientation(.landscapeLeft)
+                .previewLayout(.sizeThatFits)
+        }
+    }
+}
