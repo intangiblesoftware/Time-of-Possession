@@ -11,8 +11,6 @@ extension Color {
     struct TeamColors {
         static var blue: Color { Color("blue") }
         static var burnt: Color { Color("burnt") }
-        static var defaultHomeColor: Color { Color("homeDefault") }
-        static var defaultVisitorColor: Color { Color("visitorDefault") }
         static var forest: Color { Color("forest") }
         static var gold: Color { Color("gold") }
         static var graphite: Color { Color("graphite") }

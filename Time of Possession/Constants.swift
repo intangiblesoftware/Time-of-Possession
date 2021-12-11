@@ -19,8 +19,8 @@ struct Constants {
     }
     
     struct TeamColors {
-        static let defaultHomeColor = Color.TeamColors.defaultHomeColor
-        static let defaultVisitorColor = Color.TeamColors.defaultVisitorColor
+        static let defaultHomeColor = Color.TeamColors.forest
+        static let defaultVisitorColor = Color.TeamColors.red
         static let allTeamColors: [Color] = [Color.TeamColors.blue,
                                              Color.TeamColors.burnt,
                                              Color.TeamColors.forest,

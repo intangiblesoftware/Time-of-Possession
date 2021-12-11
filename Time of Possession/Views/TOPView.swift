@@ -84,29 +84,32 @@ struct TOPView: View {
                     Button {
                         resetAlertIsShowing = true
                     } label: {
-                        Text("Reset")
+                        Image(systemName: "clock.arrow.circlepath")
+                        Text("Reset Clock")
                     }
                     .padding()
                     .disabled(clockStatus != .stopped)
-                    .alert(isPresented: $resetAlertIsShowing) {
-                        Alert(
-                            title: Text("Reset all clocks?"),
-                            message: Text("This will set both clocks to zero and the team names back to their default."),
-                            primaryButton: .default(
-                                Text("Cancel")
-                            ),
-                            secondaryButton: .destructive(
-                                Text("Reset"),
-                                action: reset
-                            )
-                        )
+                    .alert("Reset Clock?", isPresented: $resetAlertIsShowing) {
+                        Button(role: .none) {
+                            // Just dismiss
+                            resetClock()
+                        } label: {
+                            Text("OK")
+                        }
+                        Button(role: .cancel) {
+                            // Just dismiss
+                        } label: {
+                            Text("Cancel")
+                        }
                     }
+
                     Spacer()
                     // settings on right
                     Button {
                         configurationIsShowing.toggle()
                     } label: {
                         Image(systemName: "gear")
+                        Text("Settings")
                     }
                     .padding(.trailing)
                     .disabled(clockStatus != .stopped)
@@ -191,20 +194,36 @@ struct TOPView: View {
         }
     }
     
-    func reset() {
-        // Just to be safe
+    func resetColors() {
+        resetOther()
+        homeConfiguration.teamColor = Constants.TeamColors.defaultHomeColor
+        visitorConfiguration.teamColor = Constants.TeamColors.defaultVisitorColor
+    }
+    
+    func resetNames() {
+        resetOther()
+        homeConfiguration.teamName = Constants.TeamName.defaultHomeTeamName
+        visitorConfiguration.teamName = Constants.TeamName.defaultVisitingTeamName
+    }
+    
+    func resetClock() {
+        resetOther()
+        homeConfiguration.elapsedTime = 0
+        visitorConfiguration.elapsedTime = 0
+    }
+    
+    func resetOther() {
+        homeConfiguration.clockIsRunning = false
+        visitorConfiguration.clockIsRunning = false
         stopClock(for: .home)
         stopClock(for: .visitor)
-        
-        homeConfiguration.teamColor = Constants.TeamColors.defaultHomeColor
-        homeConfiguration.teamName = Constants.TeamName.defaultHomeTeamName
-        homeConfiguration.elapsedTime = 0.0
-        homeConfiguration.clockIsRunning = false
-        
-        visitorConfiguration.teamColor = Constants.TeamColors.defaultVisitorColor
-        visitorConfiguration.teamName = Constants.TeamName.defaultVisitingTeamName
-        visitorConfiguration.elapsedTime = 0.0
-        visitorConfiguration.clockIsRunning = false
+    }
+    
+    func resetAll() {
+        resetOther()
+        resetColors()
+        resetNames()
+        resetClock()
     }
 }
 
