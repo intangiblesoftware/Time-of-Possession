@@ -24,7 +24,7 @@
 		387512632756793E0041637A /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		388A0639275E38DF00001B13 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		388A063B275E393800001B13 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		38A3F1AD273C592200A03D9E /* Time of Possession.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time of Possession.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		38A3F1AD273C592200A03D9E /* ToP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		38A3F1B0273C592200A03D9E /* Time_of_PossessionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time_of_PossessionApp.swift; sourceTree = "<group>"; };
 		38A3F1B2273C592300A03D9E /* TOPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOPView.swift; sourceTree = "<group>"; };
 		38A3F1B4273C592400A03D9E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 		38A3F1AE273C592200A03D9E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				38A3F1AD273C592200A03D9E /* Time of Possession.app */,
+				38A3F1AD273C592200A03D9E /* ToP.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -126,7 +126,7 @@
 			);
 			name = "Time of Possession";
 			productName = "Time of Possession";
-			productReference = 38A3F1AD273C592200A03D9E /* Time of Possession.app */;
+			productReference = 38A3F1AD273C592200A03D9E /* ToP.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -320,6 +320,8 @@
 				DEVELOPMENT_TEAM = CRBB3K29X3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Time-of-Possession-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = ToP;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -330,9 +332,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.intangiblesoftware.Time-of-Possession";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ToP;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -350,6 +352,8 @@
 				DEVELOPMENT_TEAM = CRBB3K29X3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Time-of-Possession-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = ToP;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -360,9 +364,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.intangiblesoftware.Time-of-Possession";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ToP;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
