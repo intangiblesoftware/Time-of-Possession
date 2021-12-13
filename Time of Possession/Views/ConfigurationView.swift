@@ -34,14 +34,14 @@ struct ConfigurationView: View {
                 }
                 Form {
                     Section {
-                        TextField("Home team name", text: $homeConfig.teamName, prompt: Text("Team name"))
-                        ColorPicker(selectedColor: $homeConfig.teamColor)
+                        TextField("Home team name", text: $homeConfig.name, prompt: Text("Team name"))
+                        ColorPicker(selectedColorName: $homeConfig.colorName)
                     } header: {
                         Text("Home Team")
                     }
                     Section {
-                        TextField("Visiting team name", text: $visitorConfig.teamName, prompt: Text("Team name"))
-                        ColorPicker(selectedColor: $visitorConfig.teamColor)
+                        TextField("Visiting team name", text: $visitorConfig.name, prompt: Text("Team name"))
+                        ColorPicker(selectedColorName: $visitorConfig.colorName)
                     } header: {
                         Text("Visiting Team")
                     }
@@ -54,12 +54,13 @@ struct ConfigurationView: View {
 }
 
 struct ColorPicker: View {
-    @Binding var selectedColor: Color
+    @Binding var selectedColorName: String
     
     private let colors: [Color] = Constants.TeamColors.allTeamColors
     private let columns = [GridItem(.adaptive(minimum: 45, maximum: 55), spacing: 2)]
     
     var body: some View {
+        let selectedColor: Color = Color(selectedColorName)
         ScrollView {
             LazyVGrid(columns: columns, alignment: .center, spacing: 2.0) {
                 ForEach(colors, id:\.self) { color in
@@ -70,7 +71,7 @@ struct ColorPicker: View {
                         RaisedRectangle(color: color)
                             .frame(width: 50, height: 50)
                             .onTapGesture {
-                                selectedColor = color
+                                selectedColorName = color.name
                             }
                     }
                 }

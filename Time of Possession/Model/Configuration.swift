@@ -10,30 +10,45 @@ import SwiftUI
 
 class Configuration: ObservableObject {
     
-    @Published var teamName: String
-    @Published var teamColor: Color
+    private let team: Team
+    
+    @Published var name: String
+    @Published var colorName: String
     @Published var elapsedTime: Double
     @Published var clockIsRunning: Bool
-
+    
     init(for team: Team) {
+        self.team = team
+        
+        let userDefaults = UserDefaults.standard
+        
         if team == .home {
-            teamName = Constants.TeamName.defaultHomeTeamName
-            teamColor = Constants.TeamColors.defaultHomeColor
-            elapsedTime = 0.0
+            name = userDefaults.string(forKey: Constants.Defaults.homeTeamNameKey) ?? Constants.TeamName.defaultHomeTeamName
+            colorName = userDefaults.string(forKey: Constants.Defaults.homeTeamColorNameKey) ?? "forest"
+            elapsedTime = userDefaults.double(forKey: Constants.Defaults.homeTeamTimeElapsedKey)
             clockIsRunning = false
         } else {
-            teamName = Constants.TeamName.defaultVisitingTeamName
-            teamColor = Constants.TeamColors.defaultVisitorColor
-            elapsedTime = 0.0
+            name = userDefaults.string(forKey: Constants.Defaults.visitingTeamNameKey) ?? Constants.TeamName.defaultVisitingTeamName
+            colorName = userDefaults.string(forKey: Constants.Defaults.visitingTeamColorNameKey) ?? "red"
+            elapsedTime = userDefaults.double(forKey: Constants.Defaults.visitingTeamTimeElapsedKey)
             clockIsRunning = false
         }
     }
     
-    init(name: String, color: Color) {
-        teamName = name
-        teamColor = color
-        elapsedTime = 0.0
-        clockIsRunning = false
+    func save() {
+        let userDefaults = UserDefaults.standard
+        
+        if self.team == .home {
+            userDefaults.set(name, forKey: Constants.Defaults.homeTeamNameKey)
+            userDefaults.set(colorName, forKey: Constants.Defaults.homeTeamColorNameKey)
+            userDefaults.set(elapsedTime, forKey: Constants.Defaults.homeTeamTimeElapsedKey)
+            userDefaults.set(clockIsRunning, forKey: Constants.Defaults.homeTeamClockIsRunningKey)
+        } else {
+            userDefaults.set(name, forKey: Constants.Defaults.visitingTeamNameKey)
+            userDefaults.set(colorName, forKey: Constants.Defaults.visitingTeamColorNameKey)
+            userDefaults.set(elapsedTime, forKey: Constants.Defaults.visitingTeamTimeElapsedKey)
+            userDefaults.set(clockIsRunning, forKey: Constants.Defaults.visitingTeamClockIsRunningKey)
+        }
     }
 }
 

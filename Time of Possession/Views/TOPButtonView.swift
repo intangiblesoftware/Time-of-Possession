@@ -15,12 +15,12 @@ struct TOPButtonView: View {
     var body: some View {
         ZStack {
             if configuration.clockIsRunning {
-                LoweredRectangle(color: configuration.teamColor)
+                LoweredRectangle(color: Color(configuration.colorName))
             } else {
-                RaisedRectangle(color: configuration.teamColor)
+                RaisedRectangle(color: Color(configuration.colorName))
             }
             VStack {
-                TeamTextView(team: $configuration.teamName)
+                TeamTextView(team: $configuration.name)
                 ClockTextView(elapsedTime: $configuration.elapsedTime)
             }
             .foregroundColor(Color("buttonText"))

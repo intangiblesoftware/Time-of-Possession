@@ -16,6 +16,7 @@ enum ClockStatus {
 struct TOPView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
+    @Environment(\.scenePhase) var scenePhase
 
     @StateObject var homeConfiguration = Configuration(for: .home)
     @StateObject var visitorConfiguration = Configuration(for: .visitor)
@@ -119,6 +120,13 @@ struct TOPView: View {
                     
                 }
             }
+        }.onChange(of: scenePhase) { newPhase in
+            if newPhase == .background {
+                stopClock(for: .home)
+                stopClock(for: .visitor)
+                homeConfiguration.save()
+                visitorConfiguration.save()
+            }
         }
     }
     
@@ -196,20 +204,20 @@ struct TOPView: View {
     
     func resetColors() {
         resetOther()
-        homeConfiguration.teamColor = Constants.TeamColors.defaultHomeColor
-        visitorConfiguration.teamColor = Constants.TeamColors.defaultVisitorColor
+        homeConfiguration.colorName = Constants.TeamColors.defaultHomeColor.name
+        visitorConfiguration.colorName = Constants.TeamColors.defaultVisitorColor.name
     }
     
     func resetNames() {
         resetOther()
-        homeConfiguration.teamName = Constants.TeamName.defaultHomeTeamName
-        visitorConfiguration.teamName = Constants.TeamName.defaultVisitingTeamName
+        homeConfiguration.name = Constants.TeamName.defaultHomeTeamName
+        visitorConfiguration.name = Constants.TeamName.defaultVisitingTeamName
     }
     
     func resetClock() {
         resetOther()
-        homeConfiguration.elapsedTime = 0
-        visitorConfiguration.elapsedTime = 0
+        homeConfiguration.elapsedTime = 0.0
+        visitorConfiguration.elapsedTime = 0.0
     }
     
     func resetOther() {

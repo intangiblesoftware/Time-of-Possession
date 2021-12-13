@@ -10,10 +10,10 @@ import SwiftUI
 @main
 
 struct Time_of_PossessionApp: App {
-    
     var body: some Scene {
         WindowGroup {
             TOPView()
         }
+
     }
 }

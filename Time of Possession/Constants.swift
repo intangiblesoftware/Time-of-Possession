@@ -36,5 +36,17 @@ struct Constants {
                                              Color.TeamColors.silver,
                                              Color.TeamColors.vegas]
     }
+    
+    struct Defaults {
+        static let homeTeamNameKey = "homeTeamName"
+        static let homeTeamColorNameKey = "homeTeamColorName"
+        static let homeTeamTimeElapsedKey = "homeTeamTimeElapsed"
+        static let homeTeamClockIsRunningKey = "homeTeamClockIsRunning"
+        
+        static let visitingTeamNameKey = "visitingTeamName"
+        static let visitingTeamColorNameKey = "visitingTeamColorName"
+        static let visitingTeamTimeElapsedKey = "visitingTeamTimeElapsed"
+        static let visitingTeamClockIsRunningKey = "visitingTeamClockIsRunning"
+    }
 }
 
