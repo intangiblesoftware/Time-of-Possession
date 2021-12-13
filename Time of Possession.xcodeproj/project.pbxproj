@@ -17,6 +17,7 @@
 		38A3F1B8273C592400A03D9E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38A3F1B7273C592400A03D9E /* Preview Assets.xcassets */; };
 		38A3F1C0273C59E900A03D9E /* TOPButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A3F1BF273C59E900A03D9E /* TOPButtonView.swift */; };
 		38A3F1C5273D86B400A03D9E /* ConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A3F1C4273D86B400A03D9E /* ConfigurationView.swift */; };
+		38EC4FE42767F79400C78551 /* TeamConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EC4FE32767F79400C78551 /* TeamConfigurationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		38A3F1B7273C592400A03D9E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		38A3F1BF273C59E900A03D9E /* TOPButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOPButtonView.swift; sourceTree = "<group>"; };
 		38A3F1C4273D86B400A03D9E /* ConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationView.swift; sourceTree = "<group>"; };
+		38EC4FE32767F79400C78551 /* TeamConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamConfigurationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 				38A3F1B2273C592300A03D9E /* TOPView.swift */,
 				38A3F1BF273C59E900A03D9E /* TOPButtonView.swift */,
 				38A3F1C4273D86B400A03D9E /* ConfigurationView.swift */,
+				38EC4FE32767F79400C78551 /* TeamConfigurationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 				38A3F1C0273C59E900A03D9E /* TOPButtonView.swift in Sources */,
 				38A3F1B1273C592200A03D9E /* Time_of_PossessionApp.swift in Sources */,
 				3831D9772744031B00E000D9 /* TOPTimer.swift in Sources */,
+				38EC4FE42767F79400C78551 /* TeamConfigurationView.swift in Sources */,
 				388A063A275E38DF00001B13 /* Extensions.swift in Sources */,
 				388A063C275E393800001B13 /* Constants.swift in Sources */,
 			);
