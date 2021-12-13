@@ -21,15 +21,46 @@ struct ConfigurationView: View {
             Rectangle()
                 .foregroundColor(Color("background"))
             if verticalSizeClass == .compact {
-                HStack {
-                    Spacer()
-                    TeamConfigurationView(configuration: homeConfig)
-                    Spacer()
-                    TeamConfigurationView(configuration: visitorConfig)
-                    Spacer()
+                VStack {
+                    HStack {
+                        Text("Settings")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color("instructionText"))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding([.top, .leading])
+                        Button {
+                            isPresented.toggle()
+                        } label: {
+                            Text("Done")
+                        }
+                        .padding([.top, .trailing])
+                        
+                    }
+                    HStack {
+                        Spacer()
+                        TeamConfigurationView(configuration: homeConfig)
+                        Spacer()
+                        TeamConfigurationView(configuration: visitorConfig)
+                        Spacer()
+                    }
                 }
             } else {
                 VStack {
+                    HStack {
+                        Text("Settings")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color("instructionText"))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding([.top, .leading])
+                        Button {
+                            isPresented.toggle()
+                        } label: {
+                            Text("Done")
+                        }
+                        .padding([.top, .trailing])
+                    }
                     Spacer()
                     TeamConfigurationView(configuration: homeConfig)
                     Spacer()

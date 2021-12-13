@@ -25,7 +25,7 @@ struct TeamConfigurationView: View {
                 .padding([.top, .leading])
                 .frame(maxWidth: .infinity, alignment: .leading)
             ColorPicker(selectedColorName: $configuration.colorName)
-                .padding(.horizontal)
+                .padding([.leading, .trailing, .bottom])
         }
         .foregroundColor(Color("buttonText"))
         .background(Color(configuration.colorName))
@@ -37,20 +37,21 @@ struct ColorPicker: View {
     @Binding var selectedColorName: String
     
     private let colors: [Color] = Constants.TeamColors.allTeamColors
-    private let columns = [GridItem(.adaptive(minimum: 45, maximum: 55), spacing: 5.0)]
+    private let columns = [GridItem(.adaptive(minimum: 45, maximum: 55), spacing: 10.0)]
     
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: columns, alignment: .center, spacing: 5.0) {
+            LazyVGrid(columns: columns, alignment: .center, spacing: 10.0) {
                 ForEach(colors, id:\.self) { color in
                     Rectangle()
                         .foregroundColor(color)
                         .frame(width: 50, height: 50)
+                        .border(color.name == selectedColorName ? Color.white : Color.clear)
                         .onTapGesture {
                             selectedColorName = color.name
                         }
                 }
-            }
+            }.padding(.horizontal, 2.0)
         }.frame(maxHeight: 200)
     }
 }
