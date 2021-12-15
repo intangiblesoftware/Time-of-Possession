@@ -16,27 +16,28 @@ struct ConfigurationView: View {
     
     @Binding var isPresented: Bool
     
+    var heading: some View {
+        HStack {
+            LargeTitleText(title: "Settings")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding([.top, .leading])
+            Button {
+                isPresented.toggle()
+            } label: {
+                Text("Done")
+            }
+            .padding([.top, .trailing])
+            
+        }
+    }
+    
     var body: some View {
         ZStack {
             Rectangle()
                 .foregroundColor(Color("background"))
             if verticalSizeClass == .compact {
                 VStack {
-                    HStack {
-                        Text("Settings")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color("instructionText"))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding([.top, .leading])
-                        Button {
-                            isPresented.toggle()
-                        } label: {
-                            Text("Done")
-                        }
-                        .padding([.top, .trailing])
-                        
-                    }
+                    heading
                     HStack {
                         Spacer()
                         TeamConfigurationView(configuration: homeConfig)
@@ -47,20 +48,7 @@ struct ConfigurationView: View {
                 }
             } else {
                 VStack {
-                    HStack {
-                        Text("Settings")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color("instructionText"))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding([.top, .leading])
-                        Button {
-                            isPresented.toggle()
-                        } label: {
-                            Text("Done")
-                        }
-                        .padding([.top, .trailing])
-                    }
+                    heading
                     Spacer()
                     TeamConfigurationView(configuration: homeConfig)
                     Spacer()
@@ -71,7 +59,6 @@ struct ConfigurationView: View {
         }
     }
 }
-
 
 struct ConfigurationView_Previews: PreviewProvider {
     static var previews: some View {

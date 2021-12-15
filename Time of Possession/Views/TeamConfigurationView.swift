@@ -12,22 +12,17 @@ struct TeamConfigurationView: View {
     
     var body: some View {
         VStack {
-            Text("Team name")
-                .font(.headline)
-                .padding([.top, .leading])
-                .frame(maxWidth: .infinity, alignment: .leading)
+            HeadingText(heading: "Team name")
             TextField("Team name", text: $configuration.name, prompt: Text("Team name"))
-                .padding([.leading, .trailing])
+                .padding(8.0)
                 .foregroundColor(Color("instructionText"))
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            Text("Team color")
-                .font(.headline)
-                .padding([.top, .leading])
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color("background"))
+                .cornerRadius(10.0)
+                .padding([.leading, .trailing])
+            HeadingText(heading: "Team color")
             ColorPicker(selectedColorName: $configuration.colorName)
                 .padding([.leading, .trailing, .bottom])
         }
-        .foregroundColor(Color("buttonText"))
         .background(Color(configuration.colorName))
         .padding()
     }
@@ -56,8 +51,27 @@ struct ColorPicker: View {
     }
 }
 
+struct HeadingText: View {
+    var heading: String
+    
+    var body: some View {
+        Text(heading)
+            .font(.headline)
+            .foregroundColor(Color("buttonText"))
+            .padding([.top, .leading])
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
 struct TeamConfigurationView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamConfigurationView(configuration: Configuration(for: .home))
+        Group {
+            TeamConfigurationView(configuration: Configuration(for: .home))
+                .previewLayout(.sizeThatFits)
+            TeamConfigurationView(configuration: Configuration(for: .home))
+                .preferredColorScheme(.dark)
+                .previewLayout(.sizeThatFits)
+                .previewInterfaceOrientation(.landscapeRight)
+        }
     }
 }

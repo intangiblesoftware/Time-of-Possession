@@ -36,14 +36,9 @@ struct TOPView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack {
                 // title label
-                Text("Time of Possession")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color("instructionText"))
+                LargeTitleText(title: "Time of Possession")
                     .padding(.top)
-                Text("Tap a button to start a timer. Tap again to stop.")
-                    .font(.subheadline)
-                    .foregroundColor(Color("instructionText"))
+                InstructionText(instruction: "Tap a button to start a timer. Tap again to stop.")
                 // Buttons
                 if verticalSizeClass == .compact {
                     HStack {
@@ -117,7 +112,6 @@ struct TOPView: View {
                     .sheet(isPresented: $configurationIsShowing) {
                         ConfigurationView(homeConfig: homeConfiguration, visitorConfig: visitorConfiguration, isPresented: $configurationIsShowing)
                     }
-                    
                 }
             }
         }.onChange(of: scenePhase) { newPhase in
@@ -202,36 +196,34 @@ struct TOPView: View {
         }
     }
     
-    func resetColors() {
-        resetOther()
-        homeConfiguration.colorName = Constants.TeamColors.defaultHomeColor.name
-        visitorConfiguration.colorName = Constants.TeamColors.defaultVisitorColor.name
-    }
-    
-    func resetNames() {
-        resetOther()
-        homeConfiguration.name = Constants.TeamName.defaultHomeTeamName
-        visitorConfiguration.name = Constants.TeamName.defaultVisitingTeamName
-    }
-    
     func resetClock() {
-        resetOther()
-        homeConfiguration.elapsedTime = 0.0
-        visitorConfiguration.elapsedTime = 0.0
-    }
-    
-    func resetOther() {
         homeConfiguration.clockIsRunning = false
         visitorConfiguration.clockIsRunning = false
         stopClock(for: .home)
         stopClock(for: .visitor)
+        homeConfiguration.elapsedTime = 0.0
+        visitorConfiguration.elapsedTime = 0.0
     }
+}
+
+struct LargeTitleText: View {
+    var title: String
     
-    func resetAll() {
-        resetOther()
-        resetColors()
-        resetNames()
-        resetClock()
+    var body: some View {
+        Text(title)
+            .font(.largeTitle)
+            .fontWeight(.bold)
+            .foregroundColor(Color("instructionText"))
+    }
+}
+
+struct InstructionText: View {
+    var instruction: String
+    
+    var body: some View {
+        Text(instruction)
+            .font(.subheadline)
+            .foregroundColor(Color("instructionText"))
     }
 }
 
@@ -246,5 +238,3 @@ struct TOPView_Previews: PreviewProvider {
         }
     }
 }
-
-

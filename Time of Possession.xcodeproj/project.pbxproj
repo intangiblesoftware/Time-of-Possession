@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3831D9772744031B00E000D9 /* TOPTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3831D9762744031B00E000D9 /* TOPTimer.swift */; };
 		387512642756793E0041637A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387512632756793E0041637A /* Configuration.swift */; };
 		388A063A275E38DF00001B13 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388A0639275E38DF00001B13 /* Extensions.swift */; };
 		388A063C275E393800001B13 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388A063B275E393800001B13 /* Constants.swift */; };
@@ -21,7 +20,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3831D9762744031B00E000D9 /* TOPTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOPTimer.swift; sourceTree = "<group>"; };
 		387512632756793E0041637A /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		388A0639275E38DF00001B13 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		388A063B275E393800001B13 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -50,7 +48,6 @@
 			isa = PBXGroup;
 			children = (
 				387512632756793E0041637A /* Configuration.swift */,
-				3831D9762744031B00E000D9 /* TOPTimer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -187,7 +184,6 @@
 				38A3F1C5273D86B400A03D9E /* ConfigurationView.swift in Sources */,
 				38A3F1C0273C59E900A03D9E /* TOPButtonView.swift in Sources */,
 				38A3F1B1273C592200A03D9E /* Time_of_PossessionApp.swift in Sources */,
-				3831D9772744031B00E000D9 /* TOPTimer.swift in Sources */,
 				38EC4FE42767F79400C78551 /* TeamConfigurationView.swift in Sources */,
 				388A063A275E38DF00001B13 /* Extensions.swift in Sources */,
 				388A063C275E393800001B13 /* Constants.swift in Sources */,
@@ -319,7 +315,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Time of Possession/Preview Content\"";
 				DEVELOPMENT_TEAM = CRBB3K29X3;
 				ENABLE_PREVIEWS = YES;
@@ -342,6 +338,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -351,7 +348,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Time of Possession/Preview Content\"";
 				DEVELOPMENT_TEAM = CRBB3K29X3;
 				ENABLE_PREVIEWS = YES;
@@ -374,6 +371,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
